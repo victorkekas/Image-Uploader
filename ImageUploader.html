@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Uploader</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        #preview {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Image Uploader</h1>
+    <button onclick="document.getElementById('fileInput').click()">Select Images</button>
+    <input type="file" id="fileInput" multiple accept="image/*" style="display: none" onchange="handleFiles(this.files)">
+
+    <div id="preview"></div>
+
+    <script>
+        // Array to store selected images
+        let selectedImages = [];
+
+        function handleFiles(files) {
+            selectedImages = Array.from(files); //Add images to array 
+            displayPreview();
+        }
+
+        // Display image previews
+        function displayPreview() {
+            const preview = document.getElementById('preview');
+            preview.innerHTML = ""; // Clear previous images
+
+            selectedImages.forEach(file => {
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(file); // Create a temporary URL for the image
+                img.onload = () => URL.revokeObjectURL(img.src); // Clean up memory once the image loads
+                preview.appendChild(img);
+            });
+        }
+    </script>
+
+</body>
+</html>
